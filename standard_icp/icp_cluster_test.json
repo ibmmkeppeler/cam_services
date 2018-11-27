@@ -1,0 +1,443 @@
+{
+  "service": {
+    "specVersion": "v3",
+    "catalog_metadata": {
+      "name": "ICP ClusterTest",
+      "description": "",
+      "longDescription": "DHC CaaS K8 Cluster, will let you create a small, medium, large Kubernetes environment.  The request only needs a few parameters and will then create the requested environment for the users.  The cluster will also be federate to an MCM Hub with the Klusterlet.",
+      "providerDisplayName": "",
+      "image": "serviceicon_1.svg",
+      "category": "cloud-services",
+      "bullets": [],
+      "author": "admin",
+      "documentationUrl": "",
+      "supportUrl": "",
+      "bindable": "",
+      "updatable": ""
+    },
+    "tags": [],
+    "actions": [
+      {
+        "type": "provision",
+        "name": "Provision",
+        "input_parameters": [
+          {
+            "name": "clusterName",
+            "label": "Cluster Name",
+            "customtype": "string",
+            "type": "string",
+            "immutable": false,
+            "hidden": false,
+            "required": true,
+            "secured": false,
+            "description": "Name of the cluster you want to deploy",
+            "default": "mycluster.icp"
+          },
+          {
+            "name": "cluster_admin",
+            "label": "Cluster Administrator  Name",
+            "customtype": "string",
+            "type": "string",
+            "immutable": false,
+            "hidden": false,
+            "required": true,
+            "secured": false,
+            "description": "Cluster Administrator",
+            "default": "admin"
+          },
+          {
+            "name": "cluster_admin_password",
+            "label": "Cluster Administrator Password Name",
+            "customtype": "password",
+            "type": "password",
+            "immutable": false,
+            "hidden": false,
+            "required": true,
+            "secured": false,
+            "description": "Cluster Administrator Password"
+          },
+          {
+            "name": "environment",
+            "label": "environment",
+            "customtype": "string",
+            "type": "string",
+            "immutable": true,
+            "hidden": true,
+            "required": true,
+            "secured": false,
+            "default": "small"
+          },
+          {
+            "name": "num_master",
+            "label": "Number of Master Nodes",
+            "customtype": "string",
+            "type": "string",
+            "immutable": false,
+            "hidden": false,
+            "required": false,
+            "secured": false,
+            "description": "The number of Master Nodes available in the cluster",
+            "options": [
+              {
+                "label": "1",
+                "value": "1",
+                "default": false
+              },
+              {
+                "label": "3",
+                "value": "3",
+                "default": true
+              },
+              {
+                "label": "5",
+                "value": "5",
+                "default": false
+              }
+            ]
+          },
+          {
+            "name": "num_proxy",
+            "label": "Number of Proxy nodes",
+            "customtype": "string",
+            "type": "string",
+            "immutable": false,
+            "hidden": false,
+            "required": false,
+            "secured": false,
+            "description": "The number of proxy servers available in the cluster",
+            "options": [
+              {
+                "label": "1",
+                "value": "1",
+                "default": false
+              },
+              {
+                "label": "3",
+                "value": "3",
+                "default": true
+              },
+              {
+                "label": "5",
+                "value": "5",
+                "default": false
+              }
+            ]
+          },
+          {
+            "name": "num_workers",
+            "label": "Number Worker Nodes",
+            "customtype": "string",
+            "type": "string",
+            "immutable": true,
+            "hidden": true,
+            "required": false,
+            "secured": false,
+            "description": "The number of worker nodes available in the cluster",
+            "default": "1"
+          },
+          {
+            "name": "email",
+            "label": "e-mail",
+            "customtype": "string",
+            "type": "string",
+            "immutable": false,
+            "hidden": false,
+            "required": true,
+            "secured": false,
+            "description": "User E-mail Address to send notification of deployments."
+          },
+          {
+            "name": "os_user",
+            "label": "OS User",
+            "customtype": "string",
+            "type": "string",
+            "immutable": true,
+            "hidden": true,
+            "required": false,
+            "secured": false,
+            "default": "root"
+          },
+          {
+            "name": "os_password",
+            "label": "OS Password",
+            "customtype": "string",
+            "type": "string",
+            "immutable": true,
+            "hidden": true,
+            "required": false,
+            "secured": false,
+            "description": "",
+            "default": "notS0re!"
+          }
+        ],
+        "flow": {
+          "conditions": [],
+          "templates": [
+            {
+              "Sandbox 2 - Single Node Deployment of IBM Cloud Private": {
+                "title": "Single Node Deployment of IBM Cloud Private_4d1e50",
+                "template_name": "Sandbox 2 - Single Node Deployment of IBM Cloud Private",
+                "version": "master",
+                "id": "sandbox2a7f08ec7",
+                "template_type": "Terraform",
+                "template_content_type": "VMware vSphere",
+                "template_provider": "VMware vSphere",
+                "instance_name": "",
+                "cloud_connection_name": "sandbox2",
+                "template_data_objects": {
+                  "bastionhost": "DefaultNoBastionHostRequired"
+                },
+                "template_params": {
+                  "download_user": "",
+                  "download_user_password": "",
+                  "docker_binary_url": "http://10.135.29.43/icp-docker-18.03.1_x86_64.bin",
+                  "enable_kibana": "false",
+                  "enable_metering": true,
+                  "icp_binary_url": "http://10.135.29.43/ibm-cloud-private-x86_64-3.1.0.tar.gz",
+                  "icp_cluster_name": "${parameters.clusterName}",
+                  "icp_admin_user": "${parameters.cluster_admin}",
+                  "icp_admin_password": "${parameters.cluster_admin_password}",
+                  "icp_version": "3.1.0",
+                  "kub_version": "1.11.0",
+                  "singlenode_hostname_ip": {
+                    "myicpmaster": "10.135.29.48"
+                  },
+                  "singlenode_memory": "32768",
+                  "singlenode_vcpu": "12",
+                  "singlenode_vm_ipv4_gateway": "10.135.29.1",
+                  "singlenode_vm_ipv4_prefix_length": "26",
+                  "singlenode_vm_disk1_datastore": "workload_share_0",
+                  "singlenode_vm_template": "ubuntu",
+                  "singlenode_vm_os_user": "${input_parameters.os_user}",
+                  "singlenode_vm_os_password": "${input_parameters.os_password}",
+                  "vm_clone_timeout": "30",
+                  "singlenode_vm_disk1_size": "400",
+                  "vm_domain": "vsphere.local",
+                  "vm_dns_servers": [
+                    "10.0.80.11",
+                    "10.0.80.12"
+                  ],
+                  "vm_dns_suffixes": [
+                    "vsphere.local"
+                  ],
+                  "vsphere_datacenter": "datacenter1",
+                  "vsphere_resource_pool": "RP-CAM",
+                  "vm_network_interface_label": "SDDC-DPG-Mgmt",
+                  "vm_folder": "",
+                  "enable_monitoring": "true"
+                },
+                "outputs": [
+                  "ibm_cloud_private_master_ip",
+                  "ibm_cloud_private_admin_url",
+                  "ibm_cloud_private_admin_user",
+                  "ibm_cloud_private_admin_password"
+                ]
+              }
+            },
+            {
+              "IBM Multicloud Manager": {
+                "title": "IBM Multicloud Manager_6c1cf3",
+                "template_name": "IBM Multicloud Manager",
+                "version": "dev",
+                "id": "ibmmulti08e5246b",
+                "template_type": "Terraform",
+                "template_content_type": "Other",
+                "template_provider": "Other",
+                "instance_name": "",
+                "cloud_connection_name": "Other",
+                "template_data_objects": {
+                  "bastionhost": "DefaultNoBastionHostRequired"
+                },
+                "template_params": {
+                  "boot_ipv4_address_list": [
+                    "${templates.sandbox2a7f08ec7.output.ibm_cloud_private_master_ip}"
+                  ],
+                  "master_node_ip": "${templates.sandbox2a7f08ec7.output.ibm_cloud_private_master_ip}",
+                  "vm_os_user": "${templates.sandbox2a7f08ec7.singlenode_vm_os_user}",
+                  "vm_os_password": "${templates.sandbox2a7f08ec7.singlenode_vm_os_password}",
+                  "icp_admin_user": "${input_parameters.cluster_admin}",
+                  "icp_admin_user_password": "${input_parameters.cluster_admin_password}",
+                  "cluster_location": "/root/ibm-cloud-private-x86_64-3.1.0/cluster",
+                  "icp_version": "3.1.0",
+                  "cluster_name": "${input_parameters.clusterName}",
+                  "mcm_version": "3.1.1",
+                  "mcm_binary_url": "http://10.135.29.43/mcm-3.1.1-amd64.tgz",
+                  "download_user": "",
+                  "download_user_password": "",
+                  "secret_name": "mcm-secret"
+                },
+                "outputs": [
+                  "ibm_cloud_private_master_ip"
+                ]
+              }
+            },
+            {
+              "local-charts/ibm-mcmk-prod": {
+                "title": "local-charts/ibm-mcmk-prod_9d91e1",
+                "template_name": "ibm-mcmk-prod",
+                "version": "3.1.1",
+                "id": "localcha53591752",
+                "template_type": "Helm",
+                "template_content_type": "IBM Cloud Private",
+                "template_provider": "IBM Cloud Private",
+                "instance_name": "",
+                "cloud_connection_name": "${parameters.clusterName}",
+                "template_dataobjects": {},
+                "template_params": {
+                  "namespace": "",
+                  "klusterlet-repository": "mcm-klusterlet",
+                  "klusterlet-tag": "3.1.1",
+                  "klusterlet-pullPolicy": "Always",
+                  "klusterlet-enabled": true,
+                  "klusterlet-clusterName": "",
+                  "klusterlet-clusterNamespace": "",
+                  "klusterlet-tillersecret": "",
+                  "klusterlet-autoGenTillerSecret": true,
+                  "klusterlet-tillerUser": "admin",
+                  "klusterlet-apiserverConfig-server": "",
+                  "klusterlet-apiserverConfig-token": "",
+                  "klusterlet-apiserverConfig-enableBootstrap": true,
+                  "klusterlet-deployedOnHub": false,
+                  "klusterlet-cloud": "IBM",
+                  "klusterlet-vendor": "ICP",
+                  "klusterlet-environment": "Dev",
+                  "klusterlet-region": "EU",
+                  "klusterlet-datacenter": "frankfurt",
+                  "klusterlet-owner": "marketing",
+                  "klusterlet-prometheusAddress": "",
+                  "klusterlet-prometheusPort": "",
+                  "klusterlet-httpsProxy": "",
+                  "topology-enabled": true,
+                  "topology-enableAuth": true,
+                  "topology-updateInterval": 15,
+                  "topology-username": "${input_parameters.cluster_admin}",
+                  "topology-password": "${input_parameters.cluster_admin_password}",
+                  "topology-weave-image-repository": "mcm-weave-scope",
+                  "topology-weave-image-tag": "3.1.1",
+                  "topology-weave-image-pullPolicy": "IfNotPresent",
+                  "router-image-repository": "icp-router",
+                  "router-image-tag": "2.2.0",
+                  "compliance-repository": "mcm-compliance",
+                  "compliance-tag": "3.1.1",
+                  "compliance-pullPolicy": "Always",
+                  "compliance-enabled": true,
+                  "logLevel": 5,
+                  "nodeSelector-enabled": false,
+                  "nodeSelector-arch": "",
+                  "nodeSelector-os": "",
+                  "nodeSelector-customLabelSelector": "",
+                  "nodeSelector-customLabelValue": "",
+                  "pullSecret-token": ""
+                },
+                "outputs": [],
+                "template_repo": "local-charts"
+              }
+            }
+          ],
+          "resthooks": [],
+          "notifications": [
+            {
+              "emailnotification": {
+                "title": "emailnotification",
+                "type": "email",
+                "receiverList": "${parameters.email}",
+                "id": "emailnotadd38337",
+                "sender": "CAMadmin",
+                "copyToList": "",
+                "subject": "IBM Cluster deployment ${parameters.clusterName}",
+                "body": "Dear user,\n\nYour request to create cluster ${parameters.clusterName}  has been initiated.  You will receive another e-mail once the environment is ready."
+              }
+            },
+            {
+              "emailnotification": {
+                "title": "emailnotification",
+                "type": "email",
+                "receiverList": "${parameters.email}",
+                "id": "emailnot02c0fdc1",
+                "sender": "CAMadmin",
+                "copyToList": "",
+                "subject": "IBM Cluster deployment ${parameters.clusterName}",
+                "body": "Dear user,\n\nYour cluster ${parameters.clusterName}  has been deployed and can be located here https://${templates.sandbox2a7f08ec7.output.ibm_cloud_private_master_ip}:8443/console  ."
+              }
+            }
+          ],
+          "sequence": {
+            "0": "emailnotadd38337",
+            "1": "sandbox2a7f08ec7",
+            "2": "ibmmulti08e5246b",
+            "3": "localcha53591752",
+            "4": "emailnot02c0fdc1"
+          }
+        },
+        "output_parameters": []
+      }
+    ],
+    "plans": [
+      {
+        "name": "Small",
+        "description": "Creates a small IBM Cloud Private environment, good for developers learning the about Kubernetes and IBM Cloud Private.",
+        "plan_parameters": [
+          {
+            "name": "num_master",
+            "label": "Number of Master Nodes",
+            "customtype": "string",
+            "type": "string",
+            "immutable": true,
+            "hidden": true,
+            "required": false,
+            "secured": false,
+            "description": "The number of Master Nodes available in the cluster",
+            "default": "1"
+          },
+          {
+            "name": "num_proxy",
+            "label": "Number of Proxy nodes",
+            "customtype": "string",
+            "type": "string",
+            "immutable": true,
+            "hidden": true,
+            "required": false,
+            "secured": false,
+            "description": "The number of proxy servers available in the cluster",
+            "default": "1"
+          },
+          {
+            "name": "cluster_admin_password",
+            "label": "Cluster Administrator Password Name",
+            "customtype": "password",
+            "type": "password",
+            "immutable": false,
+            "hidden": false,
+            "required": true,
+            "secured": false,
+            "description": "Cluster Administrator Password"
+          },
+          {
+            "name": "email",
+            "label": "e-mail",
+            "customtype": "string",
+            "type": "string",
+            "immutable": false,
+            "hidden": false,
+            "required": true,
+            "secured": false,
+            "description": "User E-mail Address to send notification of deployments."
+          },
+          {
+            "name": "num_workers",
+            "label": "Number Worker Nodes",
+            "customtype": "string",
+            "type": "string",
+            "immutable": true,
+            "hidden": true,
+            "required": false,
+            "secured": false,
+            "description": "The number of worker nodes available in the cluster",
+            "default": "1"
+          }
+        ],
+        "actions": []
+      }
+    ]
+  }
+}
