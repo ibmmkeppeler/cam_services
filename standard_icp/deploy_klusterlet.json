@@ -1,0 +1,174 @@
+{
+  "service": {
+    "specVersion": "v3",
+    "catalog_metadata": {
+      "name": "Deploy Kulsterlet",
+      "description": "",
+      "image": "serviceicon_1.svg",
+      "category": "cloud-services",
+      "bullets": [
+        {
+          "title": "Cloud Provider",
+          "description": "IBM Bluemix Platform"
+        }
+      ],
+      "providerDisplayName": "IBM",
+      "longDescription": "",
+      "documentationUrl": "",
+      "supportUrl": "",
+      "bindable": false,
+      "updatable": "",
+      "author": "admin"
+    },
+    "tags": [],
+    "actions": [
+      {
+        "type": "provision",
+        "name": "Provision",
+        "description": "Default action for deployment of service",
+        "input_parameters": [
+          {
+            "name": "cluster_admin",
+            "label": "Cluster Admin",
+            "customtype": "string",
+            "type": "string",
+            "immutable": false,
+            "hidden": false,
+            "required": false,
+            "secured": false,
+            "default": "admin"
+          },
+          {
+            "name": "cluster_admin_password",
+            "label": "Cluster Admin Password",
+            "customtype": "password",
+            "type": "password",
+            "immutable": false,
+            "hidden": false,
+            "required": false,
+            "secured": true,
+            "description": "",
+            "default": "^(YWRtaW4=)"
+          },
+          {
+            "name": "hub_cluster_ip",
+            "label": "Hub Cluster IP",
+            "customtype": "string",
+            "type": "string",
+            "immutable": true,
+            "hidden": true,
+            "required": false,
+            "secured": false,
+            "default": "10.135.29.41"
+          },
+          {
+            "name": "cluster_name",
+            "label": "Cluster name",
+            "customtype": "string",
+            "type": "string",
+            "immutable": true,
+            "hidden": true,
+            "required": false,
+            "secured": false,
+            "description": "",
+            "default": "mycluster"
+          },
+          {
+            "name": "access_token",
+            "label": "Access Token",
+            "customtype": "string",
+            "type": "string",
+            "immutable": false,
+            "hidden": false,
+            "required": false,
+            "secured": false,
+            "description": "",
+            "default": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdF9oYXNoIjoid2c2cTBpc2dpM3B3Yzlob3FuamgiLCJyZWFsbU5hbWUiOiJjdXN0b21SZWFsbSIsInVuaXF1ZVNlY3VyaXR5TmFtZSI6ImFkbWluIiwiaXNzIjoiaHR0cHM6Ly9zYW5kYm94Mi5pY3A6OTQ0My9vaWRjL2VuZHBvaW50L09QIiwiYXVkIjoiZTg1MGY2YTZlZGI2ZGRlODIxM2M1YzE1MjBiNTg2NTkiLCJleHAiOjE1NDIxNDI0NjEsImlhdCI6MTU0MjExMzY2MSwic3ViIjoiYWRtaW4iLCJ0ZWFtUm9sZU1hcHBpbmdzIjpbXX0.lOSkFmgEKXfWisAGu9Ps7AVfIPKy1WG6m33Fk1b-2PEllJvk0_bz4S9XRLiFEBZHZ47CHFo9AqkMzLCxXCGEfAD08s-CtwxzrwrSI5JVYdkh6qiRq1Dxcn6opdn4utmFWDMCZWCK1iM1RfvMrniC7U5DgncwuCIjqtHI-NDYBEaBEFRIwJOr1ZQgWd_VpTTno2r7gQLR5jS2V1EQ2wn_eKCEH9WA9WtrorO1CpE71MhCDUAmI2XxhguqpDupy5xzmWILxXdnn8Tlhaa1utFCjtfAl8StCsL5L3mDcAPlNkbn53iT5CixlfYzbv-SM4-x-Sy-BB5274pZroCr1JScFw"
+          }
+        ],
+        "flow": {
+          "conditions": [],
+          "templates": [
+            {
+              "local-charts/ibm-mcmk-prod": {
+                "title": "local-charts/ibm-mcmk-prod",
+                "template_name": "ibm-mcmk-prod",
+                "version": "3.1.1",
+                "id": "localcha4adcc7a2",
+                "template_type": "Helm",
+                "template_content_type": "IBM Cloud Private",
+                "template_provider": "IBM Cloud Private",
+                "instance_name": "",
+                "cloud_connection_name": "${input_parameters.cluster_name}",
+                "template_dataobjects": {},
+                "template_params": {
+                  "namespace": "kube-system",
+                  "klusterlet-repository": "${input_parameters.cluster_name}.icp:8500/kube-system/mcm-klusterlet",
+                  "klusterlet-tag": "3.1.1",
+                  "klusterlet-pullPolicy": "Always",
+                  "klusterlet-enabled": true,
+                  "klusterlet-clusterName": "${input_parameters.cluster_name}",
+                  "klusterlet-clusterNamespace": "mcm",
+                  "klusterlet-tillersecret": "mcm-secret",
+                  "klusterlet-autoGenTillerSecret": true,
+                  "klusterlet-tillerUser": "admin",
+                  "klusterlet-apiserverConfig-server": "https://${input_parameters.hub_cluster_ip}:8001",
+                  "klusterlet-apiserverConfig-token": "${input_parameters.access_token}",
+                  "klusterlet-apiserverConfig-enableBootstrap": true,
+                  "klusterlet-deployedOnHub": false,
+                  "klusterlet-cloud": "IBM",
+                  "klusterlet-vendor": "ICP",
+                  "klusterlet-environment": "Dev",
+                  "klusterlet-region": "EU",
+                  "klusterlet-datacenter": "frankfurt",
+                  "klusterlet-owner": "marketing",
+                  "klusterlet-prometheusAddress": "",
+                  "klusterlet-prometheusPort": "",
+                  "klusterlet-httpsProxy": "",
+                  "topology-enabled": true,
+                  "topology-enableAuth": true,
+                  "topology-updateInterval": 15,
+                  "topology-username": "${input_parameters.cluster_admin}",
+                  "topology-password": "${input_parameters.cluster_admin_password}",
+                  "topology-weave-image-repository": "${input_parameters.cluster_name}.icp:8500/kube-system/mcm-weave-scope",
+                  "topology-weave-image-tag": "3.1.1",
+                  "topology-weave-image-pullPolicy": "Always",
+                  "router-image-repository": "${input_parameters.cluster_name}.icp:8500/kube-system/icp-router",
+                  "router-image-tag": "2.2.0",
+                  "compliance-repository": "${input_parameters.cluster_name}.icp:8500/kube-system/mcm-compliance",
+                  "compliance-tag": "3.1.1",
+                  "compliance-pullPolicy": "Always",
+                  "compliance-enabled": true,
+                  "license": "accept",
+                  "logLevel": 5,
+                  "nodeSelector-enabled": false,
+                  "nodeSelector-arch": "",
+                  "nodeSelector-os": "",
+                  "nodeSelector-customLabelSelector": "",
+                  "nodeSelector-customLabelValue": "",
+                  "pullSecret-token": ""
+                },
+                "outputs": [],
+                "template_repo": "local-charts"
+              }
+            }
+          ],
+          "resthooks": [],
+          "notifications": [],
+          "sequence": {
+            "0": "localcha4adcc7a2"
+          }
+        },
+        "output_parameters": []
+      }
+    ],
+    "plans": [
+      {
+        "name": "Standard",
+        "description": "To deploy a Standard plan",
+        "actions": [],
+        "plan_parameters": []
+      }
+    ]
+  }
+}
